@@ -1,0 +1,8 @@
+en:
+  errors:
+    uniq?: already exists
+    rules:
+      user:
+        rules:
+          password_confirmation:
+            eql?: does not match password

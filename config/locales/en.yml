@@ -1,0 +1,10 @@
+en:
+  hello: "Hello world"
+  admin:
+    resource:
+      not_found: "%{resource} not found."
+      successfully_created: "%{resource} was successfully created."
+      successfully_updated: "%{resource} was successfully updated."
+  storage:
+    properties:
+      capacity: Capacity (tonns)
