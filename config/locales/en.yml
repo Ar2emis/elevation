@@ -5,6 +5,27 @@ en:
       not_found: "%{resource} not found."
       successfully_created: "%{resource} was successfully created."
       successfully_updated: "%{resource} was successfully updated."
+      successfully_deleted: "%{resource} was successfully deleted."
   storage:
     properties:
-      capacity: Capacity (tonns)
+      capacity: Capacity (tons)
+      fullness: Fullness
+      grain_type: Grain Type
+  grain_type:
+    errors:
+      temporary_storage_is_not_empty: You need to free temporary storage before deletion.
+  supply:
+    properties:
+      weight: Weight (tons)
+  transaction:
+    properties:
+      amount: Amount (tons)
+    form:
+      storage_storage: Storage - Storage Transaction
+      temporary_to_storage: Temporary Storage to Storage Transaction
+      storage_to_temporary: Storage to Temporary Storage Transaction
+  exports:
+    properties:
+      amount: Amount (tons)
+  mass:
+    tons: "%{weight} ton(s)"

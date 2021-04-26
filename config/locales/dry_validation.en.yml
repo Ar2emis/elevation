@@ -6,3 +6,31 @@ en:
         rules:
           password_confirmation:
             eql?: does not match password
+      storage:
+        rules:
+          capacity:
+            gt_or_eql_fullness?: must be greater than or equal to current fullness
+      transaction:
+        storage_to_storage:
+          rules:
+            from:
+              not_eql?: cannot be the same with destination
+              same_grain_type?: destination contains another grain type
+            amount:
+              enough_grain?: source hasn't enough grain
+              enough_space?: destination hasn't enough space
+        temporary_to_storage:
+          rules:
+            grain_type:
+              can_be_filled_with?: destination contains another grain type
+            amount:
+              enough_grain_in_temporary?: temporary storage hasn't enough grain
+              enough_space?: destination hasn't enough space
+        storage_to_temporary:
+          rules:
+            amount:
+              enough_grain?: source hasn't enough grain
+      export:
+          rules:
+            amount:
+              enough_grain_in_temporary?: temporary storage hasn't enough grain

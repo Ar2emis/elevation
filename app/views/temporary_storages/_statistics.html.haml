@@ -1,0 +1,5 @@
+%div.horizontal-row
+  - TemporaryStorage.all.includes(:grain_type).each do |temporary_storage|
+    %div.horizontal-element
+      %h2= temporary_storage.grain_type.name
+      %h3= temporary_storage= t('mass.tons', weight: temporary_storage.amount)

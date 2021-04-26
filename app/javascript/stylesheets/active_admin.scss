@@ -11,17 +11,12 @@
 $primary-color: #2dbb43;
 
 @import '~arctic_admin/src/scss/main';
+@import "temporary_storage";
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
-
-.status_tag {
-  &.administrator { background: #FF9900; }
-  &.logistics_manager { background: #FF0000; }
-  &.transportation_manager { background: #08A510; }
-}
 
 .footer {
   display: none;

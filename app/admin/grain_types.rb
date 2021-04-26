@@ -20,21 +20,29 @@ ActiveAdmin.register GrainType do
 
   controller do
     def create
-      @resource = GrainType::Contract::Save.new(GrainType.new)
-      return render :new unless @resource.validate(params[:grain_type])
+      result = GrainType::Operation::Create.call(params: params.permit!)
+      @resource = result[:model]
+      return render(:new) if result.failure?
 
-      @resource.save
       redirect_to collection_path(@resource), notice: I18n.t('admin.resource.successfully_created',
                                                              resource: resource_class.to_s.titleize)
     end
 
     def update
-      @resource = GrainType::Contract::Save.new(GrainType.find_by(id: params[:id]))
-      return render :edit unless @resource.validate(params[:grain_type])
+      result = GrainType::Operation::Update.call(params: params.permit!)
+      @resource = result[:model]
+      return render(:edit) if result.failure?
 
-      @resource.save
       redirect_to collection_path(@resource), notice: I18n.t('admin.resource.successfully_updated',
                                                              resource: resource_class.to_s.titleize)
+    end
+
+    def destroy
+      result = GrainType::Operation::Destroy.call(params: params.permit!)
+      return redirect_back(fallback_location: collection_path, alert: result[:error]) if result.failure?
+
+      redirect_to(collection_path, notice: I18n.t('admin.resource.successfully_destroyed',
+                                                  resource: resource_class.to_s.titleize))
     end
   end
 end

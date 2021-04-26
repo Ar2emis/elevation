@@ -20,3 +20,16 @@ Style/Documentation:
 Metrics/BlockLength:
   Exclude:
     - 'app/admin/*'
+
+Lint/UnreachableCode:
+  Exclude:
+    - 'app/concepts/**/operation/*'
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+    - 'config/**/*'
+
+Style/SignalException:
+  Exclude:
+    - 'app/concepts/**/operation/*'

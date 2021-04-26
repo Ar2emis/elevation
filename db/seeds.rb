@@ -7,7 +7,16 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-if Rails.env.development?
-  User.create!(email: 'admin@example.com', name: 'Victor Pauk', password: 'password',
-               password_confirmation: 'password')
-end
+
+User.create!(email: 'admin@example.com', name: 'Victor Pauk', password: 'password', password_confirmation: 'password')
+
+grain_type_1 = GrainType.create!(name: 'Wheat')
+TemporaryStorage.create!(grain_type: grain_type_1)
+
+grain_type_2 = GrainType.create!(name: 'Millet')
+TemporaryStorage.create!(grain_type: grain_type_2)
+
+grain_type_3 = GrainType.create!(name: 'Buckwheat')
+TemporaryStorage.create!(grain_type: grain_type_3)
+
+Storage.create!(name: 'Storage 1', capacity: 10000)
