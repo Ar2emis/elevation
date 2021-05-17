@@ -2,13 +2,12 @@
 
 module Export::Operation
   class Destroy < Trailblazer::Operation
-    step Model(::Supply, :find_by)
+    step Model(::Export, :find_by)
     step :temporary_storage
     step :amount
     step ChangeTemporaryStorageAmount
     step :from
     step :to
-    step :transaction_amount
     step CreateTransaction
     step :destroy
 
@@ -21,11 +20,11 @@ module Export::Operation
     end
 
     def from(ctx, model:, **)
-      ctx[:from] = model.grain_type.temporary_storage
+      ctx[:from] = model
     end
 
     def to(ctx, model:, **)
-      ctx[:to] = model
+      ctx[:to] = model.grain_type.temporary_storage
     end
 
     def destroy(_ctx, model:, **)

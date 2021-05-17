@@ -12,6 +12,7 @@ module Export::Operation
     step ChangeTemporaryStorageAmount
     step :from
     step :to
+    step :transaction_amount
     step CreateTransaction
 
     def temporary_storage(ctx, model:, **)
@@ -25,7 +26,6 @@ module Export::Operation
     def from(ctx, model:, **)
       ctx[:from] = model.grain_type.temporary_storage
     end
-
 
     def transaction_amount(ctx, model:, **)
       ctx[:amount] = model.amount

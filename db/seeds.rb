@@ -1,22 +1,46 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-
+# Admin
 User.create!(email: 'admin@example.com', name: 'Victor Pauk', password: 'password', password_confirmation: 'password')
 
-grain_type_1 = GrainType.create!(name: 'Wheat')
-TemporaryStorage.create!(grain_type: grain_type_1)
+Timecop.travel(Time.zone.today - 1.month) do
+  # Grain Types
+  %w[Wheat Millet Buckwheat Oats Sunflower].each { |name| GrainType::Operation::Create.call(params: { grain_type: { name: name } }) }
 
-grain_type_2 = GrainType.create!(name: 'Millet')
-TemporaryStorage.create!(grain_type: grain_type_2)
+  # Storages
+  10.times do |number|
+    params = { storage: { name: "Storage #{number + 1}", capacity: rand(3..5) * 10_000 } }
+    Storage::Operation::Create.call(params: params)
+  end
 
-grain_type_3 = GrainType.create!(name: 'Buckwheat')
-TemporaryStorage.create!(grain_type: grain_type_3)
+  # Supplies
+  100.times do
+    params = { supply: { code: FFaker::IdentificationPL.id, weight: rand(16..24) * 1_000, grain_type_id: GrainType.ids.sample } }
+    Timecop.travel(rand(1..30).days.from_now) { Supply::Operation::Create.call(params: params) }
+  end
 
-Storage.create!(name: 'Storage 1', capacity: 10000)
+
+  # Exports
+  50.times do
+    params = { export: { code: FFaker::IdentificationPL.identity_card, amount: rand(8..12) * 1_000, grain_type_id: GrainType.ids.sample } }
+    Timecop.travel(rand(1..30).days.from_now) { Export::Operation::Create.call(params: params) }
+  end
+
+  # Temporary Storage to Storage Transactions
+  50.times do
+    params = { transaction: { grain_type_id: GrainType.ids.sample, amount: rand(2..5) * 1_000, to: Storage.ids.sample } }
+    Timecop.travel(rand(1..30).days.from_now) { Transaction::Operation::TemporaryToStorage.call(params: params) }
+  end
+
+  # Storage to Storage Transactions
+  100.times do
+    params = { transaction: { from: Storage.ids.sample, amount: rand(2..3) * 1_000, to: Storage.ids.sample } }
+    Timecop.travel(rand(1..30).days.from_now) { Transaction::Operation::StorageToStorage.call(params: params) }
+  end
+
+  # Storage to Temporary Storage Transactions
+  50.times do
+    params = { transaction: { amount: rand(2..3) * 1_000, from: Storage.ids.sample } }
+    Timecop.travel(rand(1..30).days.from_now) { Transaction::Operation::StorageToTemporary.call(params: params) }
+  end
+end

@@ -12,6 +12,8 @@ $primary-color: #2dbb43;
 
 @import '~arctic_admin/src/scss/main';
 @import "temporary_storage";
+@import "dashboard";
+@import "user";
 
 // Overriding any non-variable Sass must be done after the fact.
 // For example, to change the default status-tag color:

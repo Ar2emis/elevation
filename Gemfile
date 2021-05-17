@@ -32,6 +32,7 @@ gem 'prawn'
 gem 'pundit'
 gem 'reform', '~> 2.2.0', '>= 2.2.4'
 gem 'trailblazer-rails'
+gem 'timecop'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
